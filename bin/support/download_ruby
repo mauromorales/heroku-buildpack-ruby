@@ -30,6 +30,7 @@ if [[ $(cat "$BIN_DIR/../buildpack.toml") =~ $regex ]]
   then
     if [[ "${BASH_REMATCH[1]}" == "2.6.6" ]]
     then
+			echo Detected patchable version Ruby 2.6.6
       patch=1
       heroku_buildpack_ruby_url="https://cache.ruby-lang.org/pub/ruby/2.6/ruby-2.6.6.tar.gz"
     else
@@ -45,18 +46,23 @@ mkdir -p "$RUBY_BOOTSTRAP_DIR"
 if [[ "${patch}" == "1" ]]
 then
   mkdir -p "/tmp/src"
+	echo Downloading Ruby 2.6.6 from source
   curl_retry_on_18 --fail --silent --location -o /tmp/ruby-2.6.6.tar.gz "$heroku_buildpack_ruby_url" || {
   echo Failed to download Ruby sources
     exit 1
   }
 
+	echo Extracting sources to tmp
   tar xzf /tmp/ruby-2.6.6.tar.gz -C /tmp/src
   cd /tmp/src/ruby-2.6.6
 	ls
+	echo Running autoconf, configure, make and make install
   autoconf
   ./configure --disable-install-doc --prefix "$RUBY_BOOTSTRAP_DIR" --enable-load-relative --enable-shared
 	make
 	make install
+	echo Apply patch
+	patch "$RUBY_BOOTSTRAP_DIR" "$BIN_DIR/support/onigmo-fix.diff"
 else
   curl_retry_on_18 --fail --silent --location -o "$RUBY_BOOTSTRAP_DIR/ruby.tgz" "$heroku_buildpack_ruby_url" || {
   cat<<EOF

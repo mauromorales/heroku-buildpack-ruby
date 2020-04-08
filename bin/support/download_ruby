@@ -52,6 +52,7 @@ then
 
   tar xzf /tmp/ruby-2.6.6.tar.gz -C /tmp/src/ruby-2.6.6
   cd /tmp/src/ruby-2.6.6
+	ls
   autoconf
   ./configure --disable-install-doc --prefix "$heroku_buildpack_ruby_url" --enable-load-relative --enable-shared
 	make

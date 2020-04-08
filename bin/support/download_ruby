@@ -57,7 +57,7 @@ then
   cd /tmp/src/ruby-2.6.6
 	echo Apply patch
 	patch < "$BIN_DIR/support/onigmo-fix.diff"
-	ls
+	cat regcomp.c
 	echo Running autoconf, configure, make and make install
   autoconf
   ./configure --disable-install-doc --prefix "$RUBY_BOOTSTRAP_DIR" --enable-load-relative --enable-shared

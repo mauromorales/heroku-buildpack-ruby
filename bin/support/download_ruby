@@ -44,6 +44,7 @@ mkdir -p "$RUBY_BOOTSTRAP_DIR"
 
 if [[ "${patch}" == "1" ]]
 then
+  mkdir -p "/tmp/src"
   curl_retry_on_18 --fail --silent --location -o /tmp/ruby-2.6.6.tar.gz "$heroku_buildpack_ruby_url" || {
   echo Failed to download Ruby sources
     exit 1

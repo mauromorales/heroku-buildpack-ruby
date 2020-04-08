@@ -41,7 +41,7 @@ fi
 
 mkdir -p "$RUBY_BOOTSTRAP_DIR"
 
-if [$patch = 1]
+if $patch
 then
   mkdir -p /tmp/src/ruby-2.6.6
   curl_retry_on_18 --fail --silent --location -o /tmp/ruby-2.6.6.tar.gz "$heroku_buildpack_ruby_url" || {

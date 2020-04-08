@@ -22,6 +22,7 @@ curl_retry_on_18() {
   return $ec
 }
 
+set -x
 patch=0
 # Pull ruby version out of buildpack.toml to be used with bootstrapping
 regex=".*ruby_version = [\'\"]([0-9]+\.[0-9]+\.[0-9]+)[\'\"].*"
@@ -69,3 +70,4 @@ EOF
 
   tar xzf "$RUBY_BOOTSTRAP_DIR/ruby.tgz" -C "$RUBY_BOOTSTRAP_DIR"
 fi
+set +x

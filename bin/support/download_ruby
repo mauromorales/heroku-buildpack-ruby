@@ -44,13 +44,13 @@ mkdir -p "$RUBY_BOOTSTRAP_DIR"
 
 if [[ "${patch}" == "1" ]]
 then
-  mkdir -p /tmp/src/ruby-2.6.6
+  mkdir -p "/tmp/src/ruby-2.6.6"
   curl_retry_on_18 --fail --silent --location -o /tmp/ruby-2.6.6.tar.gz "$heroku_buildpack_ruby_url" || {
   echo Failed to download Ruby sources
     exit 1
   }
 
-  tar xzf /tmp/ruby-2.6.6.tgz -C /tmp/src/ruby-2.6.6
+  tar xzf /tmp/ruby-2.6.6.tar.gz -C /tmp/src/ruby-2.6.6
   cd /tmp/src/ruby-2.6.6
   autoconf
   ./configure --disable-install-doc --prefix "$heroku_buildpack_ruby_url" --enable-load-relative --enable-shared

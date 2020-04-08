@@ -55,14 +55,14 @@ then
 	echo Extracting sources to tmp
   tar xzf /tmp/ruby-2.6.6.tar.gz -C /tmp/src
   cd /tmp/src/ruby-2.6.6
+	echo Apply patch
+	patch < "$BIN_DIR/support/onigmo-fix.diff"
 	ls
 	echo Running autoconf, configure, make and make install
   autoconf
   ./configure --disable-install-doc --prefix "$RUBY_BOOTSTRAP_DIR" --enable-load-relative --enable-shared
 	make
 	make install
-	echo Apply patch
-	patch "$RUBY_BOOTSTRAP_DIR" "$BIN_DIR/support/onigmo-fix.diff"
 else
   curl_retry_on_18 --fail --silent --location -o "$RUBY_BOOTSTRAP_DIR/ruby.tgz" "$heroku_buildpack_ruby_url" || {
   cat<<EOF
